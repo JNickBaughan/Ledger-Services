@@ -18,7 +18,7 @@
 
         public string Memo {  get ; set; }
 
-        public DateOnly EntryDate { get; set; }
+        public DateTime EntryDate { get; set; }
 
     }
 }
