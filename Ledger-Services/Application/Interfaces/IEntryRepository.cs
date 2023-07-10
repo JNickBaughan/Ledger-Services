@@ -1,7 +1,8 @@
-﻿using Core.Entities;
-
-namespace Application.Interfaces
+﻿namespace Application.Interfaces
 {
-    public interface IEntryRepository : IRepository<Entry>
-    { }
+    public interface IEntryRepository<O, P>
+    {
+        Task<IReadOnlyList<O>> Get(P input);
+
+    }
 }

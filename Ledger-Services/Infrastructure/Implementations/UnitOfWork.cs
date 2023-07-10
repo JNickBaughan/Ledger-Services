@@ -4,14 +4,14 @@ using Implementations.Repository;
 
 namespace Infrastructure.Implementations
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork<O, P> : IUnitOfWork<O, P>
     {
-        public UnitOfWork(IEntryRepository EntryRepository)
+        public UnitOfWork(IEntryRepository<O, P> EntryRepository)
         {
             Entries = EntryRepository;
         }
 
-        public IEntryRepository Entries { get; set; }
+        public IEntryRepository<O, P> Entries { get; set; }
 
     }
 

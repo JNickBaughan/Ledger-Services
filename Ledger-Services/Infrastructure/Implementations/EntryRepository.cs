@@ -3,12 +3,13 @@ using System.Data.SqlClient;
 using System.Data;
 using Application.Interfaces;
 using Core.Entities;
+using Core.Model;
 using Dapper;
 using SQL.Queries;
 
 namespace Implementations.Repository
 {
-    public class EntryRepository : IEntryRepository
+    public class EntryRepository : IEntryRepository<Entry, EntrySearch>
     {
         #region ===[ Private Members ]=============================================================
 
@@ -23,34 +24,21 @@ namespace Implementations.Repository
             this.configuration = configuration;
         }
 
-        Task<string> IRepository<Entry>.AddAsync(Entry entity)
-        {
-            throw new NotImplementedException();
-        }
 
-        Task<string> IRepository<Entry>.DeleteAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
 
-        Task<IReadOnlyList<Entry>> IRepository<Entry>.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<Entry> IRepository<Entry>.GetByIdAsync(long entryId)
+        async Task<IReadOnlyList<Entry>> IEntryRepository<Entry, EntrySearch>.Get(EntrySearch search)
         {
             using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("DBConnection")))
             {
+            
                 connection.Open();
-                var result = await connection.QuerySingleOrDefaultAsync<Entry>(EntryQueries.EntryById, new { EntryId = entryId });
-                return result;
-            }
-        }
+                var result = await connection.QueryAsync<Entry>(EntryQueries.EntrySearchQuery, new { 
+                    StartDate = search.StartDate,
+                    EndDate = search.EndDate
+                });
+                return result.ToList();
 
-        Task<string> IRepository<Entry>.UpdateAsync(Entry entity)
-        {
-            throw new NotImplementedException();
+            }
         }
 
         #endregion

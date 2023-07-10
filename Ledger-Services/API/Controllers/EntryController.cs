@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Core.Entities;
+using Core.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,19 +13,19 @@ namespace API.Controllers
 
         private readonly ILogger<EntryController> _logger;
 
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<Entry, EntrySearch> _unitOfWork;
 
-        public EntryController(ILogger<EntryController> logger, IUnitOfWork unitOfWork)
+        public EntryController(ILogger<EntryController> logger, IUnitOfWork<Entry, EntrySearch> unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
      
-        [HttpGet("{id}")]
-        public async Task<Entry> GetById(int id)
+        [HttpPost]
+        public async Task<IReadOnlyList<Entry>> Get(EntrySearch search)
         {
-            return await _unitOfWork.Entries.GetByIdAsync(1);
+            return await _unitOfWork.Entries.Get(search);
 
         }
 

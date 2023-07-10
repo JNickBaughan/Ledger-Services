@@ -8,9 +8,7 @@ namespace SQL.Queries
 {
     public static class EntryQueries
     {
-        public static string AllEntries => "SELECT * FROM [Entries] (NOLOCK)";
-
-        public static string EntryById => "SELECT * FROM [Entries] (NOLOCK) WHERE [EntryId] = @EntryId";
+        public static string EntrySearchQuery => @"SELECT * FROM [Entries] (NOLOCK) WHERE [EntryDate] >= @StartDate AND [EntryDate] <= @EndDate";
 
         public static string AddEntry =>
             @"INSERT INTO [Entries] ([EntryType],
