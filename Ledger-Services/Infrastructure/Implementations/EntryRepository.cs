@@ -3,13 +3,13 @@ using System.Data.SqlClient;
 using System.Data;
 using Application.Interfaces;
 using Core.Entities;
-using Core.Model;
+using Core.DTO;
 using Dapper;
 using SQL.Queries;
 
 namespace Implementations.Repository
 {
-    public class EntryRepository : IEntryRepository<Entry, EntrySearch>
+    public class EntryRepository : IEntryRepository
     {
         #region ===[ Private Members ]=============================================================
 
@@ -26,7 +26,7 @@ namespace Implementations.Repository
 
 
 
-        async Task<IReadOnlyList<Entry>> IEntryRepository<Entry, EntrySearch>.Get(EntrySearch search)
+        public async Task<IReadOnlyList<Entry>> Get(EntrySearchDTO search)
         {
             using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("DBConnection")))
             {
@@ -40,6 +40,28 @@ namespace Implementations.Repository
 
             }
         }
+
+        public async Task<int> Add(EntryDTO entry)
+        {
+            using (IDbConnection connection = new SqlConnection(configuration.GetConnectionString("DBConnection")))
+            {
+
+                connection.Open();
+                var result = await connection.QueryAsync<Entry>(EntryQueries.AddEntry, new
+                {
+                    @EntryType = entry.EntryType.ToString(),
+                    @Account = entry.Account,
+                    @Vendor = entry.Vendor,
+                    @EntryDescription = entry.EntryDescription,
+                    @EntryDate = entry.EntryDate,
+                    @Memo = entry.Memo,
+                    @Amount = entry.Amount
+                });
+
+            }
+            return 1;
+        }
+
 
         #endregion
 

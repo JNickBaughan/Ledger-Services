@@ -18,7 +18,7 @@ namespace SQL.Queries
                                     [EntryDate],
                                     [Memo],
                                     [Amount]) 
-            VALUES (@FirstName, @LastName, @Email, @PhoneNumber)";
+            VALUES (@EntryType, @Account,@Vendor,@EntryDescription,@EntryDate,@Memo,@Amount)";
 
         public static string UpdateEntry =>
             @"UPDATE [Entries] 

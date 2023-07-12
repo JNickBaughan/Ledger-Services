@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Model
+namespace Core.DTO
 {
-    public class EntrySearch
+    public class EntrySearchDTO
     {
         public DateTime StartDate { get; set; }
 

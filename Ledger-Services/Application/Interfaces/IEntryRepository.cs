@@ -1,8 +1,13 @@
-﻿namespace Application.Interfaces
+﻿using Core.Entities;
+using Core.DTO;
+
+namespace Application.Interfaces
 {
-    public interface IEntryRepository<O, P>
+    public interface IEntryRepository
     {
-        Task<IReadOnlyList<O>> Get(P input);
+        Task<IReadOnlyList<Entry>> Get(EntrySearchDTO entrySearch);
+
+        Task<int> Add(EntryDTO entry);
 
     }
 }

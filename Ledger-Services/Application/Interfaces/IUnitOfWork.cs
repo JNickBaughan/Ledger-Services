@@ -1,7 +1,7 @@
 ﻿namespace Application.Interfaces
 {
-    public interface IUnitOfWork<O, P>
+    public interface IUnitOfWork
     {
-        IEntryRepository<O, P> Entries { get; }
+        IEntryRepository Entries { get; }
     }
 }

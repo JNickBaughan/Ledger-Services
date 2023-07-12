@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Core.Entities;
-using Core.Model;
+using Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -9,26 +9,30 @@ namespace API.Controllers
     [Route("[controller]")]
     public class EntryController : ControllerBase
     {
-        
 
-        private readonly ILogger<EntryController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IUnitOfWork<Entry, EntrySearch> _unitOfWork;
-
-        public EntryController(ILogger<EntryController> logger, IUnitOfWork<Entry, EntrySearch> unitOfWork)
+        public EntryController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
-     
+        
+        [Route("GetEntries")]
         [HttpPost]
-        public async Task<IReadOnlyList<Entry>> Get(EntrySearch search)
+        public async Task<IReadOnlyList<Entry>> Get(EntrySearchDTO search)
         {
             return await _unitOfWork.Entries.Get(search);
 
         }
-
         
+        [Route("AddEntry")]
+        [HttpPost]
+        public async Task<int> Add(EntryDTO entry)
+        {
+            return await _unitOfWork.Entries.Add(entry);
+        }
+
+
     }
 }
