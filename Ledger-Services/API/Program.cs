@@ -1,6 +1,11 @@
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(
+        CertificateAuthenticationDefaults.AuthenticationScheme)
+    .AddCertificate();
 
 // Add services to the container.
 builder.Services.RegisterServices();
